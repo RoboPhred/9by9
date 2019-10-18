@@ -1,0 +1,61 @@
+{
+  "name": "9by9",
+  "version": "0.0.1",
+  "description": "Multi dimentional tic-tac-toe",
+  "main": "src/index.ts",
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.js",
+    "test": "jest",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.config.js",
+    "start:prod": "cross-env NODE_ENV=production webpack-dev-server --config ./config/webpack.config.js"
+  },
+  "private": true,
+  "keywords": [
+    "React",
+    "Typescript",
+    "TicTacToe"
+  ],
+  "author": "William Matthews",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/classnames": "^2.2.9",
+    "@types/lodash": "^4.14.144",
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
+    "@types/react-jss": "^8.6.4",
+    "@types/react-redux": "^7.1.4",
+    "@types/reduce-reducers": "^0.3.0",
+    "@types/uuid": "^3.4.5",
+    "@types/webpack-env": "^1.14.1",
+    "cross-env": "^6.0.3",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "rimraf": "^3.0.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^1.0.0",
+    "ts-loader": "^6.2.0",
+    "typescript": "^3.6.4",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
+  },
+  "dependencies": {
+    "@rehooks/component-size": "^1.0.3",
+    "classnames": "^2.2.6",
+    "lodash": "^4.17.15",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-jss": "^10.0.0",
+    "react-redux": "^7.1.1",
+    "reduce-reducers": "^1.0.4",
+    "redux": "^4.0.4",
+    "redux-saga": "^1.1.1",
+    "reselect": "^4.0.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "uuid": "^3.3.3"
+  }
+}
