@@ -1,7 +1,6 @@
-const PIXELS_PER_INCH = 96;
-
 const theme = {
-  pixelsPerMeter: 1 * PIXELS_PER_INCH
+  tokenSizePx: 20,
+  squareSizePx: 30
 };
 export default theme;
 
