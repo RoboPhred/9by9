@@ -1,7 +1,13 @@
+import { GameState, defaultGameState } from "./services/game/state";
+
 export interface AppState {
-  services: {};
+  services: {
+    game: GameState;
+  };
 }
 
 export const defaultAppState: Readonly<AppState> = Object.freeze({
-  services: {}
+  services: {
+    game: defaultGameState
+  }
 });
