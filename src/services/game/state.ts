@@ -1,7 +1,9 @@
-export type TokenState = "x" | "o" | "blank";
+import { TokenType } from "./types";
+
+export type TokenState = TokenType | "blank";
 
 export interface GameState {
-  turn: "x" | "o";
+  turn: TokenType;
   tokens: TokenState[];
 }
 

@@ -11,3 +11,5 @@ export const defaultAppState: Readonly<AppState> = Object.freeze({
     game: defaultGameState
   }
 });
+
+export type AppSelector<T = any> = (state: Readonly<AppState>) => T;

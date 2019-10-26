@@ -1,10 +1,12 @@
-import { combineReducers, AnyAction } from "redux";
+import { combineReducers, AnyAction, Reducer } from "redux";
 
 import { AppState, defaultAppState } from "@/state";
 import gameReducer from "@/services/game/reducer";
+import { GameState } from "@/services/game/state";
 
 const servicesReducer = combineReducers({
-  game: gameReducer
+  // reduce-reducer types are not aligning with redux types
+  game: gameReducer as Reducer<GameState>
 });
 
 export default function reducer(
