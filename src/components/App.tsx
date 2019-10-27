@@ -10,10 +10,11 @@ import Grid from "./Grid";
 import PositionedToken from "./PositionedToken";
 import ResetButton from "./ResetButton";
 import { getTokenArrayIndex } from "@/services/game/state";
+import { tokensSelector, turnSelector } from "@/services/game/selectors";
 
 const App: React.FC = () => {
-  const tokens = useSelector((state: AppState) => state.services.game.tokens);
-  const turn = useSelector((state: AppState) => state.services.game.turn);
+  const tokens = useSelector(tokensSelector);
+  const turn = useSelector(turnSelector);
   const grids = windowArray(tokens, TOKENS_PER_GRID);
   // TODO: cleanup grids.  Draw them in sets of 3
   return (

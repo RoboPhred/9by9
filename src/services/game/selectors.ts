@@ -31,6 +31,9 @@ function createGameSelector<T>(
   return selector;
 }
 
+export const tokensSelector = (state: AppState) => state.services.game.tokens;
+export const turnSelector = (state: AppState) => state.services.game.turn;
+
 interface WinningEntry {
   token: TokenType;
   positions: [number, number, number];
@@ -77,7 +80,7 @@ function* iterateWinLines(): Iterable<[number, number, number]> {
   // 0, 1, 2 - 9, 10, 11 - 18, 19, 20
   // 3, 4, 5 - 12, 13, 14 - 21, 22, 23
   // ...
-  for (let r = 0; r < GRIDS; r++) {
+  for (let r = 0; r < GRIDS * 3; r++) {
     yield* iterateGridWinLines([
       ...range(r * 3, r * 3 + 3),
       ...range(9 + r * 3, 9 + r * 3 + 3),
@@ -89,7 +92,7 @@ function* iterateWinLines(): Iterable<[number, number, number]> {
   // 0, 3, 6 - 27, 30, 33 - 54, 57, 60
   // 1, 4, 7 - 28, 31, 34 - 55, 58, 61
   // ...
-  for (let r = 0; r < GRIDS; r++) {
+  for (let r = 0; r < GRIDS * 3; r++) {
     yield* iterateGridWinLines([
       ...range(0, 7, 3).map(x => x + r),
       ...range(27, 34, 3).map(x => x + r),
