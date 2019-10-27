@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
-import { GameState, defaultGameState } from "../state";
+import { set as setFp } from "lodash/fp";
+import { GameState, defaultGameState, getTokenIndex } from "../state";
 import { isPlaceTokenAction } from "../actions/placeToken";
 import { winningAxis } from "../selectors";
 
@@ -18,17 +19,15 @@ export default function placeTokenReducer(
 
   const { position } = action.payload;
 
-  // Don't place a token on a spot that isnt blank
   if (state.tokens[position] !== "blank") {
     return state;
   }
 
-  const newTokens = [...state.tokens];
-  newTokens[position] = state.turn;
-
-  return {
+  state = {
     ...state,
-    tokens: newTokens,
-    turn: state.turn == "x" ? "o" : "x"
+    tokens: setFp([position], state.turn, state.tokens),
+    turn: state.turn === "x" ? "o" : "x"
   };
+
+  return state;
 }

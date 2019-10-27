@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { AppState, AppSelector } from "@/state";
-import { GameState } from "./state";
+import { GameState, TokensArray } from "./state";
 import { WinAxis, TokenType } from "./types";
 
 type LocalGameSelector<T> = (state: GameState) => T;
@@ -66,25 +66,40 @@ const WinTable: WinTableEntry[] = [
 const winningEntry = createSelector(
   (state: GameState) => state.tokens,
   tokens => {
-    forEntry: for (const entry of WinTable) {
-      const token = tokens[entry.positions[0]];
-      if (token === "blank") {
+    for (const entry of WinTable) {
+      const winningToken = tokensMatchEntry(tokens, entry);
+      if (!winningToken) {
         continue;
       }
-      for (let i = 1; i < entry.positions.length; i++) {
-        if (token !== tokens[entry.positions[i]]) {
-          continue forEntry;
-        }
-      }
+
       return {
-        token,
+        token: winningToken,
         axis: entry.axis,
         positions: entry.positions
       };
     }
+
     return null;
   }
 );
+
+function tokensMatchEntry(
+  tokens: TokensArray,
+  entry: WinTableEntry
+): TokenType | null {
+  const token = tokens[entry.positions[0]];
+  if (token === "blank") {
+    return null;
+  }
+
+  for (let i = 1; i < entry.positions.length; i++) {
+    if (tokens[entry.positions[i]] !== token) {
+      return null;
+    }
+  }
+
+  return token;
+}
 
 export const winningAxis = createGameSelector<WinAxis | null>(state => {
   const entry = winningEntry(state);
