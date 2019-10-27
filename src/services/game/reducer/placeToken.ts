@@ -1,8 +1,8 @@
 import { AnyAction } from "redux";
 import { set as setFp } from "lodash/fp";
-import { GameState, defaultGameState, getTokenIndex } from "../state";
+import { GameState, defaultGameState, getTokenArrayIndex } from "../state";
 import { isPlaceTokenAction } from "../actions/placeToken";
-import { winningAxis } from "../selectors";
+import { winningPositions } from "../selectors";
 
 export default function placeTokenReducer(
   state: GameState = defaultGameState,
@@ -13,7 +13,7 @@ export default function placeTokenReducer(
   }
 
   // Dont place a token if someone already won.
-  if (winningAxis.local(state)) {
+  if (winningPositions.local(state)) {
     return state;
   }
 

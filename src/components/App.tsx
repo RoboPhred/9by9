@@ -9,7 +9,7 @@ import Field from "./Field";
 import Grid from "./Grid";
 import PositionedToken from "./PositionedToken";
 import ResetButton from "./ResetButton";
-import { getTokenIndex } from "@/services/game/state";
+import { getTokenArrayIndex } from "@/services/game/state";
 
 const App: React.FC = () => {
   const tokens = useSelector((state: AppState) => state.services.game.tokens);
@@ -22,7 +22,7 @@ const App: React.FC = () => {
         <Field key={gridIndex}>
           <Grid>
             {tokens.map((_, i) => {
-              const position = getTokenIndex(gridIndex, i);
+              const position = getTokenArrayIndex(gridIndex, i);
               return <PositionedToken key={position} position={position} />;
             })}
           </Grid>
