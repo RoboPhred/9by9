@@ -4,7 +4,12 @@ import theme from "@/theme/theme";
 
 const childOffset = (theme.squareSizePx - theme.tokenSizePx) / 2;
 
-const Grid: React.FC = ({ children }) => {
+export interface GridProps {
+  x: number;
+  y: number;
+}
+
+const Grid: React.FC<GridProps> = ({ x, y, children }) => {
   const arrayChildren = React.Children.toArray(children);
   const lineChildren: React.ReactNode[] = [];
   for (let i = 1; i <= 2; i++) {
@@ -43,7 +48,7 @@ const Grid: React.FC = ({ children }) => {
   }
 
   return (
-    <g>
+    <g transform={`translate(${x}, ${y})`}>
       <g strokeWidth={1} stroke="black">
         {lineChildren}
       </g>
