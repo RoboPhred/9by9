@@ -1,7 +1,7 @@
 {
   "name": "9by9",
   "version": "0.0.1",
-  "description": "Multi dimentional tic-tac-toe",
+  "description": "Multi dimensional tic-tac-toe",
   "main": "src/index.ts",
   "scripts": {
     "clean": "rimraf dist",
@@ -9,7 +9,8 @@
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.js",
     "test": "jest",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.config.js",
-    "start:prod": "cross-env NODE_ENV=production webpack-dev-server --config ./config/webpack.config.js"
+    "start:prod": "cross-env NODE_ENV=production webpack-dev-server --config ./config/webpack.config.js",
+    "deploy": "gh-pages -d dist"
   },
   "private": true,
   "keywords": [
@@ -32,6 +33,7 @@
     "cross-env": "^6.0.3",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
+    "gh-pages": "^2.1.1",
     "html-webpack-plugin": "^3.2.0",
     "rimraf": "^3.0.0",
     "source-map-loader": "^0.2.4",
