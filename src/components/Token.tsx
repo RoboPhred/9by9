@@ -39,7 +39,7 @@ const Token: React.FC<TokenProps> = ({
   isWinningToken,
   onClick
 }) => {
-  const color = isWinningToken ? "gold" : "black";
+  const color = isWinningToken ? "red" : "black";
   switch (tokenType) {
     case "x":
       return <TokenX color={color} onClick={onClick} />;
