@@ -90,15 +90,15 @@ function* iterateWinLines(): Iterable<[number, number, number]> {
   for (let rowMajor = 0; rowMajor < 3; rowMajor++) {
     for (let rowMinor = 0; rowMinor < 3; rowMinor++) {
       yield* iterateGridWinLines([
-        getTokenIndexXYG(0, 0, rowMajor * 3),
-        getTokenIndexXYG(1, 0, rowMajor * 3),
-        getTokenIndexXYG(2, 0, rowMajor * 3),
-        getTokenIndexXYG(0, 0, rowMajor * 3 + 1),
-        getTokenIndexXYG(1, 0, rowMajor * 3 + 1),
-        getTokenIndexXYG(2, 0, rowMajor * 3 + 1),
-        getTokenIndexXYG(0, 0, rowMajor * 3 + 2),
-        getTokenIndexXYG(1, 0, rowMajor * 3 + 2),
-        getTokenIndexXYG(2, 0, rowMajor * 3 + 2)
+        getTokenIndexXYG(0, rowMinor, rowMajor * 3),
+        getTokenIndexXYG(1, rowMinor, rowMajor * 3),
+        getTokenIndexXYG(2, rowMinor, rowMajor * 3),
+        getTokenIndexXYG(0, rowMinor, rowMajor * 3 + 1),
+        getTokenIndexXYG(1, rowMinor, rowMajor * 3 + 1),
+        getTokenIndexXYG(2, rowMinor, rowMajor * 3 + 1),
+        getTokenIndexXYG(0, rowMinor, rowMajor * 3 + 2),
+        getTokenIndexXYG(1, rowMinor, rowMajor * 3 + 2),
+        getTokenIndexXYG(2, rowMinor, rowMajor * 3 + 2)
       ]);
     }
   }
