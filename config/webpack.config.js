@@ -1,8 +1,6 @@
 "use strict";
 const path = require("path");
 
-const webpack = require("webpack");
-
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isDev = process.env["NODE_ENV"] === "development";
@@ -68,54 +66,11 @@ module.exports = {
       {
         test: /\.css$/,
         loader: ["style-loader", "css-loader"]
-      },
-
-      {
-        test: /\.(woff|woff2)$/,
-        use: {
-          loader: "url-loader",
-          options: {
-            name: "fonts/[hash].[ext]",
-            limit: 5000,
-            mimetype: "application/font-woff"
-          }
-        }
-      },
-      {
-        test: /\.(ttf|eot|svg)$/,
-        use: {
-          loader: "file-loader",
-          options: {
-            name: "fonts/[hash].[ext]"
-          }
-        }
-      },
-
-      {
-        test: /\.png/,
-        loader: "file-loader",
-        options: {
-          name: "images/[hash].[ext]"
-        }
-      },
-
-      {
-        test: /\.(txt|md)$/,
-        loader: "raw-loader"
       }
     ]
   },
 
   plugins: [
-    isDev && new webpack.NamedModulesPlugin(),
-    isDev && new webpack.HotModuleReplacementPlugin(),
-
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(isDev ? "development" : "production")
-      }
-    }),
-
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(paths.appSrc, "index.ejs")
