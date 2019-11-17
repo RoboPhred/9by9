@@ -1,59 +1,26 @@
 import * as React from "react";
+import { range } from "lodash";
 
-import theme from "@/theme/theme";
+import { TOKENS_PER_GRID } from "@/services/game/consts";
+import { getTokenArrayIndex } from "@/services/game/utils";
 
-const childOffset = (theme.squareSizePx - theme.tokenSizePx) / 2;
+import GridVisual from "./GridVisual";
+import PositionedToken from "./PositionedToken";
 
 export interface GridProps {
   x: number;
   y: number;
+  gridIndex: number;
 }
 
-const Grid: React.FC<GridProps> = ({ x, y, children }) => {
-  const arrayChildren = React.Children.toArray(children);
-  const lineChildren: React.ReactNode[] = [];
-  for (let i = 1; i <= 2; i++) {
-    lineChildren.push(
-      <line
-        key={`x${i}`}
-        x1={0}
-        y1={theme.squareSizePx * i}
-        x2={theme.squareSizePx * 3}
-        y2={theme.squareSizePx * i}
-      />
-    );
-    lineChildren.push(
-      <line
-        key={`y${i}`}
-        y1={0}
-        x1={theme.squareSizePx * i}
-        y2={theme.squareSizePx * 3}
-        x2={theme.squareSizePx * i}
-      />
-    );
-  }
-  let contentChildren: React.ReactNode[] = [];
-  for (let i = 0; i < arrayChildren.length; i++) {
-    const x = i % 3;
-    const y = Math.floor(i / 3);
-    contentChildren.push(
-      <g
-        transform={`translate(${theme.squareSizePx * x +
-          childOffset}, ${theme.squareSizePx * y + childOffset})`}
-        key={`ch${i}`}
-      >
-        {arrayChildren[i]}
-      </g>
-    );
-  }
-
+const Grid: React.FC<GridProps> = ({ x, y, gridIndex }) => {
   return (
-    <g transform={`translate(${x}, ${y})`}>
-      <g strokeWidth={1} stroke="black">
-        {lineChildren}
-      </g>
-      {contentChildren}
-    </g>
+    <GridVisual x={x} y={y}>
+      {range(0, TOKENS_PER_GRID).map(gridTokenIndex => {
+        const position = getTokenArrayIndex(gridIndex, gridTokenIndex);
+        return <PositionedToken key={position} position={position} />;
+      })}
+    </GridVisual>
   );
 };
 
