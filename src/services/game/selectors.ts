@@ -76,95 +76,108 @@ function* iterateGridWinLines(
 }
 
 function* iterateWinLines(): Iterable<[number, number, number]> {
-  // Row grids
-  // 0, 1, 2 - 9, 10, 11 - 18, 19, 20
-  // 3, 4, 5 - 12, 13, 14 - 21, 22, 23
-  // ...
-  for (let r = 0; r < GRIDS * 3; r++) {
+  // Grids
+  for (let g = 0; g < 3; g++) {
     yield* iterateGridWinLines([
-      ...range(r * 3, r * 3 + 3),
-      ...range(9 + r * 3, 9 + r * 3 + 3),
-      ...range(18 + r * 3, 18 + r * 3 + 3)
-    ]);
-  }
-
-  // Column grids
-  // 0, 3, 6 - 27, 30, 33 - 54, 57, 60
-  // 1, 4, 7 - 28, 31, 34 - 55, 58, 61
-  // ...
-  for (let r = 0; r < GRIDS * 3; r++) {
-    yield* iterateGridWinLines([
-      ...range(0, 7, 3).map(x => x + r),
-      ...range(27, 34, 3).map(x => x + r),
-      ...range(54, 61, 3).map(x => x + r)
-    ]);
-  }
-
-  // Crosses for individual grids.
-  for (let g = 0; g < GRIDS; g++) {
-    yield [
       getTokenIndexXYG(0, 0, g),
-      getTokenIndexXYG(1, 1, g),
-      getTokenIndexXYG(2, 2, g)
-    ];
-    yield [
+      getTokenIndexXYG(1, 0, g),
       getTokenIndexXYG(2, 0, g),
+      getTokenIndexXYG(0, 1, g),
       getTokenIndexXYG(1, 1, g),
-      getTokenIndexXYG(0, 2, g)
-    ];
+      getTokenIndexXYG(2, 1, g),
+      getTokenIndexXYG(0, 2, g),
+      getTokenIndexXYG(1, 2, g),
+      getTokenIndexXYG(2, 2, g)
+    ]);
   }
 
-  // Crosses for row stacks
-  for (let i = 0; i < 3; i++) {
-    yield [
-      getTokenIndexXYG(0, 0, 0 + i * 3),
-      getTokenIndexXYG(1, 1, 1 + i * 3),
-      getTokenIndexXYG(2, 2, 2 + i * 3)
-    ];
-    yield [
-      getTokenIndexXYG(2, 0, 0 + i * 3),
-      getTokenIndexXYG(1, 1, 1 + i * 3),
-      getTokenIndexXYG(0, 2, 2 + i * 3)
-    ];
-
-    yield [
-      getTokenIndexXYG(0, 2, 0 + i * 3),
-      getTokenIndexXYG(1, 1, 1 + i * 3),
-      getTokenIndexXYG(2, 0, 2 + i * 3)
-    ];
-    yield [
-      getTokenIndexXYG(2, 2, 0 + i * 3),
-      getTokenIndexXYG(1, 1, 1 + i * 3),
-      getTokenIndexXYG(0, 0, 2 + i * 3)
-    ];
+  // Grid row slices
+  for (let rowMajor = 0; rowMajor < 3; rowMajor++) {
+    for (let rowMinor = 0; rowMinor < 3; rowMinor++) {
+      yield* iterateGridWinLines([
+        getTokenIndexXYG(0, 0, rowMajor * 3),
+        getTokenIndexXYG(1, 0, rowMajor * 3),
+        getTokenIndexXYG(2, 0, rowMajor * 3),
+        getTokenIndexXYG(0, 0, rowMajor * 3 + 1),
+        getTokenIndexXYG(1, 0, rowMajor * 3 + 1),
+        getTokenIndexXYG(2, 0, rowMajor * 3 + 1),
+        getTokenIndexXYG(0, 0, rowMajor * 3 + 2),
+        getTokenIndexXYG(1, 0, rowMajor * 3 + 2),
+        getTokenIndexXYG(2, 0, rowMajor * 3 + 2)
+      ]);
+    }
   }
 
-  // Crosses for column stacks
-  for (let i = 0; i < 3; i++) {
-    yield [
-      getTokenIndexXYG(0, 0, 0 + i),
-      getTokenIndexXYG(1, 1, 3 + i),
-      getTokenIndexXYG(2, 2, 6 + i)
-    ];
-    yield [
-      getTokenIndexXYG(2, 0, 0 + i),
-      getTokenIndexXYG(1, 1, 3 + i),
-      getTokenIndexXYG(0, 2, 6 + i)
-    ];
-
-    yield [
-      getTokenIndexXYG(0, 2, 0 + i),
-      getTokenIndexXYG(1, 1, 3 + i),
-      getTokenIndexXYG(2, 0, 6 + i)
-    ];
-    yield [
-      getTokenIndexXYG(2, 2, 0 + i),
-      getTokenIndexXYG(1, 1, 3 + i),
-      getTokenIndexXYG(0, 0, 6 + i)
-    ];
+  // Grid row cross axis
+  for (let rowMajor = 0; rowMajor < 3; rowMajor++) {
+    yield* iterateGridWinLines([
+      getTokenIndexXYG(0, 0, rowMajor * 3),
+      getTokenIndexXYG(0, 1, rowMajor * 3),
+      getTokenIndexXYG(0, 2, rowMajor * 3),
+      getTokenIndexXYG(1, 0, rowMajor * 3 + 1),
+      getTokenIndexXYG(1, 1, rowMajor * 3 + 1),
+      getTokenIndexXYG(1, 2, rowMajor * 3 + 1),
+      getTokenIndexXYG(2, 0, rowMajor * 3 + 2),
+      getTokenIndexXYG(2, 1, rowMajor * 3 + 2),
+      getTokenIndexXYG(2, 2, rowMajor * 3 + 2)
+    ]);
+    yield* iterateGridWinLines([
+      getTokenIndexXYG(0, 0, rowMajor * 3 + 2),
+      getTokenIndexXYG(0, 1, rowMajor * 3 + 2),
+      getTokenIndexXYG(0, 2, rowMajor * 3 + 2),
+      getTokenIndexXYG(1, 0, rowMajor * 3 + 1),
+      getTokenIndexXYG(1, 1, rowMajor * 3 + 1),
+      getTokenIndexXYG(1, 2, rowMajor * 3 + 1),
+      getTokenIndexXYG(2, 0, rowMajor * 3),
+      getTokenIndexXYG(2, 1, rowMajor * 3),
+      getTokenIndexXYG(2, 2, rowMajor * 3)
+    ]);
   }
 
-  // Crosses for second-level grid.
+  // Grid column slices
+  for (let columnMajor = 0; columnMajor < 3; columnMajor++) {
+    for (let columnMinor = 0; columnMinor < 3; columnMinor++) {
+      yield* iterateGridWinLines([
+        getTokenIndexXYG(columnMinor, 0, columnMajor),
+        getTokenIndexXYG(columnMinor, 1, columnMajor),
+        getTokenIndexXYG(columnMinor, 2, columnMajor),
+        getTokenIndexXYG(columnMinor, 0, columnMajor + 3),
+        getTokenIndexXYG(columnMinor, 1, columnMajor + 3),
+        getTokenIndexXYG(columnMinor, 2, columnMajor + 3),
+        getTokenIndexXYG(columnMinor, 0, columnMajor + 6),
+        getTokenIndexXYG(columnMinor, 1, columnMajor + 6),
+        getTokenIndexXYG(columnMinor, 2, columnMajor + 6)
+      ]);
+    }
+  }
+
+  // Grid column cross axis
+  for (let columnMajor = 0; columnMajor < 3; columnMajor++) {
+    yield* iterateGridWinLines([
+      getTokenIndexXYG(0, 0, columnMajor),
+      getTokenIndexXYG(1, 0, columnMajor),
+      getTokenIndexXYG(2, 0, columnMajor),
+      getTokenIndexXYG(0, 1, columnMajor + 3),
+      getTokenIndexXYG(1, 1, columnMajor + 3),
+      getTokenIndexXYG(2, 1, columnMajor + 3),
+      getTokenIndexXYG(0, 2, columnMajor + 6),
+      getTokenIndexXYG(1, 2, columnMajor + 6),
+      getTokenIndexXYG(2, 2, columnMajor + 6)
+    ]);
+    yield* iterateGridWinLines([
+      getTokenIndexXYG(0, 0, columnMajor + 6),
+      getTokenIndexXYG(1, 0, columnMajor + 6),
+      getTokenIndexXYG(2, 0, columnMajor + 6),
+      getTokenIndexXYG(0, 1, columnMajor + 3),
+      getTokenIndexXYG(1, 1, columnMajor + 3),
+      getTokenIndexXYG(2, 1, columnMajor + 3),
+      getTokenIndexXYG(0, 2, columnMajor),
+      getTokenIndexXYG(1, 2, columnMajor),
+      getTokenIndexXYG(2, 2, columnMajor)
+    ]);
+  }
+
+  // // Crosses for second-level grid.
   yield [
     getTokenIndexXYG(0, 0, 0),
     getTokenIndexXYG(1, 1, 4),

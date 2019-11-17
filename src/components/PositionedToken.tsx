@@ -19,12 +19,9 @@ const PositionedToken: React.FC<{ position: number }> = ({ position }) => {
     isWinning = true;
   }
 
-  const onClick = React.useCallback(
-    (e: React.MouseEvent<any>) => {
-      dispatcher(placeToken(position));
-    },
-    [position]
-  );
+  const onClick = React.useCallback(() => {
+    dispatcher(placeToken(position));
+  }, [position]);
 
   return (
     <Token
