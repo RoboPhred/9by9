@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import { uniqBy } from "lodash";
 
 import { AppState, AppSelector } from "@/state";
 
@@ -185,7 +186,10 @@ function* iterateWinLines(): Iterable<[number, number, number]> {
   ];
 }
 
-const winLines = Array.from(iterateWinLines());
+// Generating each combination of boards producees significant duplicates.
+//  Clean up the dups to simplify the list
+const winLinesComputed = Array.from(iterateWinLines());
+const winLines = uniqBy(winLinesComputed, x => x.join("-"));
 
 const winningEntry = createSelector(
   (state: GameState) => state.tokens,
@@ -196,10 +200,12 @@ const winningEntry = createSelector(
         continue;
       }
 
-      return {
+      const entry: WinningEntry = {
         token: winningToken,
         positions: winLine
-      } as WinningEntry;
+      };
+
+      return entry;
     }
 
     return null;
