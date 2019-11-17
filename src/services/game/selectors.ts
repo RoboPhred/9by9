@@ -1,16 +1,11 @@
 import { createSelector } from "reselect";
-import { range } from "lodash";
 
 import { AppState, AppSelector } from "@/state";
-import {
-  GameState,
-  TokensArray,
-  TokenState,
-  getTokenIndexXYG,
-  getTokenIndexXY
-} from "./state";
+
+import { GameState, TokensArray } from "./state";
+
+import { getTokenIndexXYG, getTokenIndexXY } from "./utils";
 import { TokenType } from "./types";
-import { GRIDS, TOKENS_PER_GRID } from "./consts";
 
 type LocalGameSelector<T> = (state: GameState) => T;
 

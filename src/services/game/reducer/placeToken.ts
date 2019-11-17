@@ -1,6 +1,7 @@
 import { AnyAction } from "redux";
 import { set as setFp } from "lodash/fp";
-import { GameState, defaultGameState, getTokenArrayIndex } from "../state";
+
+import { GameState, defaultGameState } from "../state";
 import { isPlaceTokenAction } from "../actions/placeToken";
 import { winningPositions } from "../selectors";
 
