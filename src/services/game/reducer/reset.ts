@@ -1,6 +1,7 @@
 import { GameState, defaultGameState } from "../state";
 import { AnyAction } from "redux";
 import { isResetAction } from "@/services/game/actions/reset";
+import { performAiMove } from "./ai-move";
 
 export default function resetReducer(
   state: GameState = defaultGameState,
@@ -10,8 +11,14 @@ export default function resetReducer(
     return state;
   }
 
-  return {
+  state = {
     ...defaultGameState,
     mode: state.mode
   };
+
+  if (state.mode === "ai") {
+    state = performAiMove(state);
+  }
+
+  return state;
 }
