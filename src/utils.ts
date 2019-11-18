@@ -18,3 +18,7 @@ export function windowArray<T>(array: T[], count: number): T[][] {
 
   return result;
 }
+
+export function isNotNull<T>(x: T | null | undefined): x is T {
+  return x != null;
+}

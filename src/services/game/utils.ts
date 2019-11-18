@@ -1,4 +1,5 @@
 import { TOKENS_PER_GRID } from "./consts";
+import { TokenType, WinLine, TokensArray } from "./types";
 
 /**
  * Calculate the tokens array index of a particular token slot.
@@ -20,4 +21,22 @@ export function getTokenIndexXYG(x: number, y: number, g: number): number {
 
 export function getTokenIndexXY(x: number, y: number): number {
   return y * 3 + x;
+}
+
+export function tokensMatchWinLine(
+  tokens: TokensArray,
+  winLine: WinLine
+): TokenType | null {
+  const token = tokens[winLine[0]];
+  if (token === "blank") {
+    return null;
+  }
+
+  for (let i = 1; i < winLine.length; i++) {
+    if (tokens[winLine[i]] !== token) {
+      return null;
+    }
+  }
+
+  return token;
 }

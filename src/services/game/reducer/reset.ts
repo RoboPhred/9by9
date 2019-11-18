@@ -10,5 +10,8 @@ export default function resetReducer(
     return state;
   }
 
-  return defaultGameState;
+  return {
+    ...defaultGameState,
+    mode: state.mode
+  };
 }

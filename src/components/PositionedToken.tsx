@@ -2,7 +2,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppState } from "@/state";
-import { placeToken } from "@/services/game/actions/placeToken";
+import { placeToken } from "@/services/game/actions/place-token";
 import { winningPositions } from "@/services/game/selectors";
 
 import Token from "./Token";

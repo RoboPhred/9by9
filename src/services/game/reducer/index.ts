@@ -1,8 +1,14 @@
 import reduceReducers from "reduce-reducers";
 
-import placeTokenReducer from "./placeToken";
 import { GameState } from "../state";
-import resetReducer from "./reset";
 
-const gameReducer = reduceReducers<GameState>(placeTokenReducer, resetReducer);
+import placeTokenReducer from "./place-token";
+import resetReducer from "./reset";
+import startGameReducer from "./start-game";
+
+const gameReducer = reduceReducers<GameState>(
+  placeTokenReducer,
+  resetReducer,
+  startGameReducer
+);
 export default gameReducer;
