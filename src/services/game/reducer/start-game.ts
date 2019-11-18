@@ -2,6 +2,7 @@ import { AnyAction } from "redux";
 
 import { GameState } from "../state";
 import { isStartGameAction } from "../actions/start-game";
+import { performAiMove } from "./ai-move";
 
 export default function startGameReducer(
   state: GameState,
@@ -12,6 +13,11 @@ export default function startGameReducer(
   }
 
   const { mode } = action.payload;
+
+  // AI goes first
+  if (mode === "ai") {
+    state = performAiMove(state);
+  }
 
   return {
     ...state,
