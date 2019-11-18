@@ -6,7 +6,7 @@ import { isNotNull } from "@/utils";
 
 import { GameState, defaultGameState } from "../state";
 import { isPlaceTokenAction } from "../actions/place-token";
-import { winningPositions } from "../selectors";
+import { winningPositions, winningToken } from "../selectors";
 import { AI_TOKEN } from "../consts";
 import { TokenType, WinLine, TokensArray } from "../types";
 import winLines from "../win-lines";
@@ -36,7 +36,11 @@ export default function placeTokenReducer(
     turn: state.turn === "x" ? "o" : "x"
   };
 
-  if (state.mode === "ai" && state.turn === AI_TOKEN) {
+  if (
+    state.mode === "ai" &&
+    state.turn === AI_TOKEN &&
+    winningToken.local(state) == null
+  ) {
     state = aiMove(state);
     state = {
       ...state,
