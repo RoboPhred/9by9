@@ -4,6 +4,8 @@ import { GameField } from "./GameField";
 import { GameFieldTokens } from "./GameFieldTokens";
 import { PlayerController } from "./PlayerController";
 import { Token, TokenIndex } from "./types";
+import { tokensMatchWinLine } from "./utils";
+import winLines from "./win-lines";
 
 @injectable()
 @singleton()
@@ -47,6 +49,15 @@ export class GameSession {
     this._runGame();
   }
 
+  stopGame() {
+    if (this._currentGame) {
+      this._currentGame.cancel();
+      this._currentGame = null;
+    }
+
+    this._turn = null;
+  }
+
   reset() {
     this._currentGame = null;
     this._playerX = null;
@@ -73,6 +84,11 @@ export class GameSession {
       }
 
       this._tokens.setIndex(move, this._turn);
+
+      if (this._hasWinningMove()) {
+        this.stopGame();
+        break;
+      }
     }
   }
 
@@ -100,6 +116,16 @@ export class GameSession {
     } while (this._tokens.getIndex(move) != null);
 
     return move;
+  }
+
+  private _hasWinningMove() {
+    for (const winLine of winLines) {
+      if (tokensMatchWinLine(this._tokens.value, winLine)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 

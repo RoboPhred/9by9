@@ -22,7 +22,7 @@ const Game: React.FC = () => {
   const styles = useStyles();
   const controller = useDIDependency(GameController);
   React.useEffect(() => {
-    controller.startTwoPlayerGame();
+    controller.startAIGame();
   }, []);
   return (
     <div className={styles.root}>
