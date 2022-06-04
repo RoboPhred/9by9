@@ -39,7 +39,7 @@ function* iterateGridWinLines(gridPositions: TokenIndex[]): Iterable<WinLine> {
 
 function* iterateWinLines(): Iterable<WinLine> {
   // Grids
-  for (let g = 0; g < 3; g++) {
+  for (let g = 0; g < 9; g++) {
     yield* iterateGridWinLines([
       getTokenIndexXYG(0, 0, g),
       getTokenIndexXYG(1, 0, g),
