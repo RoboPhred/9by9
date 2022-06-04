@@ -15,27 +15,26 @@ module.exports = {
   devtool: "source-map",
 
   devServer: {
-    contentBase: paths.appDist,
     hot: isDev,
-    historyApiFallback: true
+    historyApiFallback: true,
   },
 
   entry: {
-    client: [path.join(paths.appSrc, "./index.tsx")]
+    client: [path.join(paths.appSrc, "./index.tsx")],
   },
 
   output: {
     filename: "[name].[hash].bundle.js",
     path: paths.appBuild,
-    publicPath: isDev ? "/" : paths.publicPath
+    publicPath: isDev ? "/" : paths.publicPath,
   },
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json"],
     alias: {
-      "@": paths.appSrc
-    }
+      "@": paths.appSrc,
+    },
   },
 
   module: {
@@ -46,42 +45,42 @@ module.exports = {
         enforce: "pre",
         test: /\.(jsx?|tsx?)$/,
         loader: "source-map-loader",
-        include: [/src\/.+\.tsx?/]
+        include: [/src\/.+\.tsx?/],
       },
 
       {
         test: /\.tsx?$/,
         use: [
           {
-            loader: "ts-loader"
-          }
+            loader: "ts-loader",
+          },
         ],
-        exclude: [/\.worker\.ts$/]
+        exclude: [/\.worker\.ts$/],
       },
 
       {
         test: /\.worker\.ts$/,
-        use: "ts-loader"
+        use: "ts-loader",
       },
       {
         test: /\.css$/,
-        loader: ["style-loader", "css-loader"]
-      }
-    ]
+        use: ["style-loader", "css-loader"],
+      },
+    ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      template: path.resolve(paths.appSrc, "index.ejs")
-    })
-  ].filter(x => x),
+      template: path.resolve(paths.appSrc, "index.ejs"),
+    }),
+  ].filter((x) => x),
 
   optimization: {
     splitChunks: {
-      chunks: "all"
+      chunks: "all",
     },
     runtimeChunk: true,
-    minimize: !isDev
-  }
+    minimize: !isDev,
+  },
 };
