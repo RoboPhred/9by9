@@ -1,24 +1,20 @@
 import * as React from "react";
 import { range } from "lodash";
 
-import { TOKENS_PER_GRID } from "@/services/game/consts";
-import { getTokenArrayIndex } from "@/services/game/utils";
-
 import GridVisual from "./GridVisual";
-import PositionedToken from "./PositionedToken";
+import GridSlot from "./GridSlot";
+import { GameGrid } from "@/services/game/GameGrid";
 
 export interface GridProps {
-  x: number;
-  y: number;
-  gridIndex: number;
+  grid: GameGrid;
 }
 
-const Grid: React.FC<GridProps> = ({ x, y, gridIndex }) => {
+const Grid: React.FC<GridProps> = ({ grid }) => {
+  const slots = grid.slots;
   return (
-    <GridVisual x={x} y={y}>
-      {range(0, TOKENS_PER_GRID).map(gridTokenIndex => {
-        const position = getTokenArrayIndex(gridIndex, gridTokenIndex);
-        return <PositionedToken key={position} position={position} />;
+    <GridVisual>
+      {slots.map((slot, slotIndex) => {
+        return <GridSlot key={slotIndex} slot={slot} />;
       })}
     </GridVisual>
   );

@@ -139,7 +139,7 @@ function* iterateWinLines(): Iterable<WinLine> {
     ]);
   }
 
-  // Crosses for second-level grid.
+  // // Crosses for second-level grid.
   yield [
     getTokenIndexXYG(0, 0, 0),
     getTokenIndexXYG(1, 1, 4),

@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import theme from "@/theme/theme";
-import { TokenType } from "@/services/game/types";
+import { Token } from "@/services/game/types";
 
-export interface TokenProps {
-  tokenType: TokenType | "blank";
+export interface TokenVisualProps {
+  token: Token | null;
   isWinningToken: boolean;
   onClick?(e: React.MouseEvent<SVGGElement>): void;
 }
@@ -34,22 +34,22 @@ const TokenBlank: React.FC<TokenPartProps> = ({ onClick }) => (
   <rect fill="transparent" width={size} height={size} onClick={onClick} />
 );
 
-const Token: React.FC<TokenProps> = ({
-  tokenType,
+const TokenVisual: React.FC<TokenVisualProps> = ({
+  token,
   isWinningToken,
-  onClick
+  onClick,
 }) => {
   const color = isWinningToken ? "red" : "black";
-  switch (tokenType) {
+  switch (token) {
     case "x":
       return <TokenX color={color} onClick={onClick} />;
     case "o":
       return <TokenO color={color} onClick={onClick} />;
-    case "blank":
+    case null:
       return <TokenBlank color="transparent" onClick={onClick} />;
     default:
       return <div>Error</div>;
   }
 };
 
-export default Token;
+export default TokenVisual;

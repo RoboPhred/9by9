@@ -4,12 +4,7 @@ import theme from "@/theme/theme";
 
 const childOffset = (theme.squareSizePx - theme.tokenSizePx) / 2;
 
-export interface GridProps {
-  x: number;
-  y: number;
-}
-
-const GridVisual: React.FC<GridProps> = ({ x, y, children }) => {
+const GridVisual: React.FC = ({ children }) => {
   const lineChildren: React.ReactNode[] = [];
   for (let i = 1; i <= 2; i++) {
     lineChildren.push(
@@ -39,8 +34,9 @@ const GridVisual: React.FC<GridProps> = ({ x, y, children }) => {
     const y = Math.floor(i / 3);
     contentChildren.push(
       <g
-        transform={`translate(${theme.squareSizePx * x +
-          childOffset}, ${theme.squareSizePx * y + childOffset})`}
+        transform={`translate(${theme.squareSizePx * x + childOffset}, ${
+          theme.squareSizePx * y + childOffset
+        })`}
         key={`ch${i}`}
       >
         {arrayChildren[i]}
@@ -49,7 +45,7 @@ const GridVisual: React.FC<GridProps> = ({ x, y, children }) => {
   }
 
   return (
-    <g transform={`translate(${x}, ${y})`}>
+    <g>
       <g strokeWidth={1} stroke="black">
         {lineChildren}
       </g>

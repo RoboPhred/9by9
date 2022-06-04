@@ -1,16 +1,19 @@
 import * as React from "react";
 
 import ThemeProvider from "@/theme/components/ThemeProvider";
-import StoreProvider from "@/store/components/StoreProvider";
+
+import { ContainerProvider } from "./container";
 
 import App from "@/components/App";
 
 const Root: React.FC = () => (
-  <ThemeProvider>
-    <StoreProvider>
-      <App />
-    </StoreProvider>
-  </ThemeProvider>
+  <React.StrictMode>
+    <ContainerProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </ContainerProvider>
+  </React.StrictMode>
 );
 
 export default Root;
