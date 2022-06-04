@@ -1,11 +1,11 @@
 import { uniqBy } from "lodash";
 
 import { getTokenIndexXY, getTokenIndexXYG } from "./utils";
-import { WinLine } from "./types";
+import { TokenIndex, WinLine } from "./types";
 
 // There is probably a more elegant way of finding the win lines...
 
-function* iterateGridWinLines(gridPositions: number[]): Iterable<WinLine> {
+function* iterateGridWinLines(gridPositions: TokenIndex[]): Iterable<WinLine> {
   // horiz
   for (let y = 0; y < 3; y++) {
     yield [
