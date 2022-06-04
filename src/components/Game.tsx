@@ -3,9 +3,8 @@ import { createUseStyles } from "react-jss";
 
 import { useDIDependency } from "@/container";
 
-import { GameService } from "@/services/game/GameService";
-
 import Field from "./Field";
+import { GameController } from "@/services/game/GameController";
 
 const useStyles = createUseStyles({
   root: {
@@ -21,10 +20,13 @@ const useStyles = createUseStyles({
 
 const Game: React.FC = () => {
   const styles = useStyles();
-  const game = useDIDependency(GameService);
+  const controller = useDIDependency(GameController);
+  React.useEffect(() => {
+    controller.startTwoPlayerGame();
+  }, []);
   return (
     <div className={styles.root}>
-      <Field className={styles.field} field={game.field} />
+      <Field className={styles.field} field={controller.session.field} />
     </div>
   );
 };

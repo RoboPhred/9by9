@@ -1,5 +1,5 @@
-import { TokenPosition } from "./types";
+import { TokenIndex } from "./types";
 
 export interface PlayerController {
-  getNextMove(): Promise<TokenPosition>;
+  getNextMove(): Promise<TokenIndex>;
 }

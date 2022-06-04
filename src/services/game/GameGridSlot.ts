@@ -1,31 +1,46 @@
-import { forEach } from "lodash";
+import { inject, injectable, injectParam } from "microinject";
 import { Observable, map } from "rxjs";
 
-import { FieldTokensArray, Token, TokenSlot } from "./types";
+import { EventBus } from "./EventBus";
+import { GameFieldTokens } from "./GameFieldTokens";
+import { TokenIndex, TokenSlot } from "./types";
 import { tokensMatchWinLine } from "./utils";
 import winLines from "./win-lines";
 
+export namespace GameGridSlotParams {
+  export const Index = "index";
+}
+
+@injectable()
 export class GameGridSlot {
   private _token$: Observable<TokenSlot>;
   private _isWinningToken$: Observable<boolean>;
 
   constructor(
-    private _index: number,
-    tokens$: Observable<FieldTokensArray>,
-    private readonly _setToken: (index: number, token: Token | null) => void
+    @injectParam(GameGridSlotParams.Index)
+    private readonly _index: TokenIndex,
+    @inject(GameFieldTokens) tokens$: GameFieldTokens,
+    @inject(EventBus)
+    private readonly _eventBus: EventBus
   ) {
     this._token$ = tokens$.pipe(map((tokens) => tokens[this._index]));
     this._isWinningToken$ = tokens$.pipe(
       map((tokens) => {
         for (const winLine of winLines) {
           if (tokensMatchWinLine(tokens, winLine)) {
-            return true;
+            if (winLine.indexOf(this._index) !== -1) {
+              return true;
+            }
           }
         }
 
         return false;
       })
     );
+  }
+
+  get index(): TokenIndex {
+    return this._index;
   }
 
   get token$(): Observable<TokenSlot> {
@@ -36,11 +51,7 @@ export class GameGridSlot {
     return this._isWinningToken$;
   }
 
-  setToken(token: Token | null) {
-    this._setToken(this._index, token);
-  }
-
   onClick(): void {
-    this.setToken(Token.X);
+    this._eventBus.onGridSlotClicked(this);
   }
 }

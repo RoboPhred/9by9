@@ -8,6 +8,7 @@ import {
 } from "microinject";
 
 import servicesModule from "./services/module";
+import { GameController } from "./services/game/GameController";
 
 const modules = composeModules(servicesModule);
 
