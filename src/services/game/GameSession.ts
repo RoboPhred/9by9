@@ -119,7 +119,7 @@ export class GameSession {
 
     let move: TokenIndex;
     do {
-      move = await player.getNextMove();
+      move = await player.getNextMove(this._turn!);
     } while (this._tokens.getIndex(move) != null);
 
     return move;

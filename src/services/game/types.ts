@@ -12,4 +12,4 @@ export type FieldTokensArray = readonly (Token | null)[];
 
 export type TokenSlot = Token | null;
 
-export type WinLine = [number, number, number];
+export type WinLine = [TokenIndex, TokenIndex, TokenIndex];
