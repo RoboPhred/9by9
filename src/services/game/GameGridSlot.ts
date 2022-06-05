@@ -4,8 +4,7 @@ import { Observable, map } from "rxjs";
 import { EventBus } from "./EventBus";
 import { GameFieldTokens } from "./GameFieldTokens";
 import { TokenIndex, TokenSlot } from "./types";
-import { tokensMatchWinLine } from "./utils";
-import winLines from "./win-lines";
+import { WinCondition } from "./WinCondition";
 
 export namespace GameGridSlotParams {
   export const Index = "index";
@@ -20,22 +19,15 @@ export class GameGridSlot {
     @injectParam(GameGridSlotParams.Index)
     private readonly _index: TokenIndex,
     @inject(GameFieldTokens) tokens$: GameFieldTokens,
+    @inject(WinCondition) winCondition: WinCondition,
     @inject(EventBus)
     private readonly _eventBus: EventBus
   ) {
     this._token$ = tokens$.pipe(map((tokens) => tokens[this._index]));
-    this._isWinningToken$ = tokens$.pipe(
-      map((tokens) => {
-        for (const winLine of winLines) {
-          if (tokensMatchWinLine(tokens, winLine)) {
-            if (winLine.indexOf(this._index) !== -1) {
-              return true;
-            }
-          }
-        }
-
-        return false;
-      })
+    this._isWinningToken$ = winCondition.completedWinLines$.pipe(
+      map((winLines) =>
+        winLines.some((line) => line.indexOf(this._index) !== -1)
+      )
     );
   }
 

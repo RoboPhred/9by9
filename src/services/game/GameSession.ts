@@ -4,11 +4,12 @@ import { GameField } from "./GameField";
 import { GameFieldTokens } from "./GameFieldTokens";
 import { PlayerController } from "./PlayerController";
 import { Token, TokenIndex } from "./types";
+import { WinCondition } from "./WinCondition";
 
 @injectable()
 @singleton()
 export class GameSession {
-  private _currentGame: CancellationToken | null = null;
+  private _gameCancellationToken: CancellationToken | null = null;
   private _turn: Token | null = null;
 
   private _playerX: PlayerController | null = null;
@@ -16,7 +17,8 @@ export class GameSession {
 
   constructor(
     @inject(GameFieldTokens) private _tokens: GameFieldTokens,
-    @inject(GameField) private readonly _field: GameField
+    @inject(GameField) private readonly _field: GameField,
+    @inject(WinCondition) private readonly _winCondition: WinCondition
   ) {}
 
   get field(): GameField {
@@ -35,11 +37,11 @@ export class GameSession {
   }
 
   startGame(playerX: PlayerController, playerO: PlayerController) {
-    if (this._currentGame) {
-      this._currentGame.cancel();
+    if (this._gameCancellationToken) {
+      this._gameCancellationToken.cancel();
     }
 
-    this._currentGame = new CancellationToken();
+    this._gameCancellationToken = new CancellationToken();
     this._playerX = playerX;
     this._playerO = playerO;
     this._tokens.reset();
@@ -47,33 +49,54 @@ export class GameSession {
     this._runGame();
   }
 
+  stopGame() {
+    if (this._gameCancellationToken) {
+      this._gameCancellationToken.cancel();
+      this._gameCancellationToken = null;
+    }
+
+    this._turn = null;
+  }
+
   reset() {
-    this._currentGame = null;
+    this._gameCancellationToken = null;
     this._playerX = null;
     this._playerO = null;
     this._tokens.reset();
   }
 
   private async _runGame() {
-    const currentGame = this._currentGame;
+    const currentGame = this._gameCancellationToken;
     if (!currentGame) {
+      this.stopGame();
       return;
     }
 
-    while (!currentGame.isCancelled) {
+    gameLoop: while (!currentGame.isCancelled) {
+      if (this._winCondition.isOver()) {
+        break;
+      }
+
       this._nextTurn();
       if (this._turn == null) {
         break;
       }
 
-      const move = await this._getNextMove();
+      while (true) {
+        const move = await this._getNextMove();
 
-      if (currentGame.isCancelled || move == null || this._turn == null) {
-        break;
+        if (currentGame.isCancelled || move == null || this._turn == null) {
+          break gameLoop;
+        }
+
+        if (this._tokens.getIndex(move) == null) {
+          this._tokens.setIndex(move, this._turn);
+          break;
+        }
       }
-
-      this._tokens.setIndex(move, this._turn);
     }
+
+    this.stopGame();
   }
 
   private _nextTurn() {

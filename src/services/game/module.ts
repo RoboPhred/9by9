@@ -7,6 +7,7 @@ import { GameGrid } from "./GameGrid";
 import { GameGridSlot } from "./GameGridSlot";
 import { GameSession } from "./GameSession";
 import { LocalPlayerController } from "./players/LocalPlayerController";
+import { WinCondition } from "./WinCondition";
 
 export default new ContainerModule((bind) => {
   bind(LocalPlayerController);
@@ -17,4 +18,5 @@ export default new ContainerModule((bind) => {
   bind(GameGrid);
   bind(GameGridSlot);
   bind(GameSession);
+  bind(WinCondition);
 });
