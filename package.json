@@ -18,7 +18,7 @@
     "Typescript",
     "TicTacToe"
   ],
-  "author": "William Matthews",
+  "author": "RoboPhred",
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.144",
